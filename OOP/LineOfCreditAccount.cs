@@ -3,7 +3,7 @@ namespace OOP
 {
     public class LineOfCreditAccount : BankAccount
     {
-        public LineOfCreditAccount(string name, decimal initialBalance) : base(name, initialBalance)
+        public LineOfCreditAccount(string name, decimal initialBalance, decimal creditLimit) : base(name, initialBalance, -creditLimit)
         {
         }
 
@@ -16,5 +16,10 @@ namespace OOP
                 MakeWithdrawal(interest, DateTime.Now, "Charge monthly interest");
             }
         }
+
+        protected override Transaction CheckWithdrawalLimit(bool isOverdrawn) =>
+            isOverdrawn
+            ? new Transaction(-20, DateTime.Now, "Apply overdraw fee")
+            : default;
     }
 }
